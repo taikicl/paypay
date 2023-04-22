@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPayリンク作成ツール</title>
+</head>
+<style>
+    body{
+        text-align: center;
+    }
+    .inputt{
+        text-align: center;
+    }
+</style>
+<body>
+    <script>
+        let copy_text = '';
+        function create_paypaylink(){
+            let pnum = document.getElementById("paynum");
+            let paypaylink_area = document.getElementById("paypaylink_area");
+            let rds = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let rdsn = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            for(let i=0; pnum.value > i; i++){
+                let paystr = '';
+                for(let i=0; 5 > i; i++){
+                    paystr += rds[~~(Math.random() * rds.length)];
+                }
+                for(let i=5; 16 > i; i++){
+                    paystr += rdsn[~~(Math.random() * rdsn.length)];
+                }
+                copy_text += `https://pay.paypay.ne.jp/${paystr}\n`;
+                const paypaylink = document.createElement("a");
+                const br = document.createElement("br");
+                paypaylink.href = `https://pay.paypay.ne.jp/${paystr}`;
+                paypaylink.textContent = `https://pay.paypay.ne.jp/${paystr}`;
+                paypaylink.target = '_bank';
+                paypaylink_area.appendChild(paypaylink);
+                paypaylink_area.appendChild(br);
+            }
+            document.getElementById('copied').disabled = false;
+        }
+
+        function copied(){
+            navigator.clipboard.writeText(copy_text);
+        }
+    </script>
+    <h1>PayPayリンク作成ツール</h1>
+    <p>※半角数字で入力してください</p>
+    <input class="inputt" type="text" size="50" placeholder="作成するリンクの個数" id="paynum">
+    <input type="button" value="作成" onclick="create_paypaylink()">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button disabled id="copied" onclick="copied()">コピー</button>
+    <div id="paypaylink_area">
+    </div>
+    <div id="paypaylink_area_copied">
+    </div>
+</body>
+</html>
